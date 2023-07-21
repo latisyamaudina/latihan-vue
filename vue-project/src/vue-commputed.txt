@@ -1,0 +1,74 @@
+<template>
+  <div>
+    <h2>Formulir</h2>
+    <form @submit.prevent="submitForm">
+      <label for="">Nama</label>
+      <input class="{'is-invalid':IsInvalidName}" type="text" name="name" v-model="kontak.name">
+      <br>
+    </form>
+    <div v-if="IsInvalidName" class="error-message">
+      Nama Harus Di Isi!
+    </div>
+
+    <br>
+
+    <label for="">Email</label>
+    <input class="{'is-invalid':IsInvalidEmail}" type="email" name="email" v-model="kontak.email">
+    <div v-if="IsInvalidEmail" class="error-message">Email Harus DI isi!</div><br>
+    <button type="submit">Simpan</button>
+  </div>
+
+  <div v-if="showResult">
+  name: {{ name }} <br>
+  email: {{ email }}
+  </div>
+</template>
+
+<script>
+import { ref } from 'vue';
+
+export default {
+  data() {
+    return {
+      kontak: {
+        nama: '',
+        email: '',
+      },
+      showResult: ref(false),
+      name: ref(''),
+      email: ref(''),
+    };
+  },
+  computed: {
+    IsInvalidName(){
+      return this.kontak.name.length < 1;
+    },
+    IsInvalidEmail(){
+      return this.kontak.email.length < 1;
+    },
+  },
+  methods: {
+    submitForm() {
+      this.name = this.kontak.nama;
+      this.email = this.kontak.email;
+      this.showResult = true;
+      this.IsInvalidName = false;
+      this.IsInvalidEmail = false;
+    },
+  },
+};
+</script>
+
+<style>
+h2 {
+  color: black;
+}
+.error-message {
+  color: red;
+  margin-top: 5px;
+}
+
+.is-invalid {
+  border-color: red;
+}
+</style>
